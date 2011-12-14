@@ -2,7 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 
 class AboutInheritance < EdgeCase::Koan
   class Dog
-    
     attr_reader :name
 
     def initialize(name)

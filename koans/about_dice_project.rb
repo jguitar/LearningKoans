@@ -25,7 +25,6 @@ class AboutDiceProject < EdgeCase::Koan
     dice.roll(5)
     assert dice.values.is_a?(Array), "should be an array"
     assert_equal 5, dice.values.size
-    puts dice.values.inspect
     dice.values.each do |value|
       assert value >= 1 && value <= 6, "value #{value} must be between 1 and 6"
     end
