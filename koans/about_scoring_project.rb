@@ -42,23 +42,17 @@ def score(dice)
     tirada = i
     while tirada > 0 
       if tirada >= 3
-        if cara == 1
-          result += 1000
-        else
-          result += cara * 100
-        end
+        result += cara == 1 ? 1000 : cara * 100
         tirada -= 3
-      else
-        if cara == 1
-          result += 100
-          tirada -= 1
-        elsif cara == 5
-          result += 50
-          tirada -= 1
-        else
-          tirada = 0
-        end
       end
+      
+      if cara == 1
+        result += 100 * tirada
+      elsif cara == 5
+        result += 50 * tirada
+      end
+
+      tirada = 0      
     end
     cara += 1
   end
