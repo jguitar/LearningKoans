@@ -33,26 +33,22 @@ def score(dice)
   # Ordenar y agrupar las tiradas
   tiradas = [0, 0, 0, 0, 0, 0]
   for i in dice
-    tiradas[i - 1] = tiradas[i - 1] + 1
+    tiradas[i - 1] += 1
   end
-  
+
   result = 0
   cara = 1
   for i in tiradas
-    tirada = i
-    while tirada > 0 
-      if tirada >= 3
-        result += cara == 1 ? 1000 : cara * 100
-        tirada -= 3
-      end
-      
-      if cara == 1
-        result += 100 * tirada
-      elsif cara == 5
-        result += 50 * tirada
-      end
-
-      tirada = 0      
+    numTirada = i
+    if numTirada >= 3
+      result += cara == 1 ? 1000 : cara * 100
+      numTirada -= 3
+    end
+    
+    if cara == 1
+      result += 100 * numTirada
+    elsif cara == 5
+      result += 50 * numTirada
     end
     cara += 1
   end
