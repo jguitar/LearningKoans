@@ -6,10 +6,7 @@ class DiceSet
   attr_accessor :values
   
   def roll(size)
-    @values = Array.new(size)
-    0.upto(size - 1) do |x|
-      @values[x] = rand(6) + 1
-    end
+    @values = Array.new(size) {rand(6) + 1}    
   end
 end
 

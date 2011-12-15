@@ -29,28 +29,50 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 #
 # Your goal is to write the score method.
 
-def score(dice)
-  # Ordenar y agrupar las tiradas
-  tiradas = [0, 0, 0, 0, 0, 0]
-  for i in dice
-    tiradas[i - 1] += 1
-  end
+SET_OF_THREE = 3
+FACE_ONE = 1
+FACE_FIVE = 5
 
+POINTS_FOR_THREE_ONES = 1000
+POINTS_FOR_THREE_OTHER_THAN_ONES = 100
+POINTS_FOR_A_ONE = 100
+POINTS_FOR_A_FIVE = 50
+ZERO_POINTS = 0
+
+$count = 0
+
+def create_histogram(dice)
+  histogram = Hash.new(0)
+  dice.each { |face| histogram[face] += 1 }
+  return histogram
+end
+
+def check_three_rolls_equal(face, score)
+  if $count >= SET_OF_THREE
+    score += face == FACE_ONE ? POINTS_FOR_THREE_ONES : face * POINTS_FOR_THREE_OTHER_THAN_ONES
+    $count -= SET_OF_THREE
+  end
+  return score
+end
+
+def check_other_rolls(face, score)
+  score += if face == FACE_ONE
+    POINTS_FOR_A_ONE * $count
+  elsif face == FACE_FIVE
+    POINTS_FOR_A_FIVE * $count
+  else
+    ZERO_POINTS
+  end
+  return score
+end
+
+def score(dice)  
   result = 0
-  cara = 1
-  for i in tiradas
-    numTirada = i
-    if numTirada >= 3
-      result += cara == 1 ? 1000 : cara * 100
-      numTirada -= 3
-    end
-    
-    if cara == 1
-      result += 100 * numTirada
-    elsif cara == 5
-      result += 50 * numTirada
-    end
-    cara += 1
+  histogram = create_histogram(dice)
+  histogram.each do |face, count|
+    $count = count
+    result = check_three_rolls_equal(face, result)
+    result = check_other_rolls(face, result)
   end
 
   return result
