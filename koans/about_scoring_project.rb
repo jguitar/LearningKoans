@@ -48,10 +48,12 @@ def create_histogram(dice)
 end
 
 def check_three_rolls_equal(face, score)
-  if $count >= SET_OF_THREE
-    score += face == FACE_ONE ? POINTS_FOR_THREE_ONES : face * POINTS_FOR_THREE_OTHER_THAN_ONES
-    $count -= SET_OF_THREE
+  score += if face == FACE_ONE
+    POINTS_FOR_THREE_ONES
+  else
+    face * POINTS_FOR_THREE_OTHER_THAN_ONES  
   end
+  $count -= SET_OF_THREE
   return score
 end
 
@@ -71,7 +73,7 @@ def score(dice)
   histogram = create_histogram(dice)
   histogram.each do |face, count|
     $count = count
-    result = check_three_rolls_equal(face, result)
+    result = check_three_rolls_equal(face, result) if $count >= SET_OF_THREE
     result = check_other_rolls(face, result)
   end
 
